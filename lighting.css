@@ -1,3 +1,4 @@
+/*
 html { 
   background: url(snowy.jpg) no-repeat center center fixed; 
   -webkit-background-size: cover;
@@ -5,6 +6,10 @@ html {
   -o-background-size: cover;
   background-size: cover;
 }
+*/
+
+
+
 
 .light {
 	width: 5%;
@@ -55,7 +60,7 @@ html {
 }
 #container canvas, #overlay {
   position: absolute;
+
 }
-canvas {
-  border: 0px;
-}
+
+
