@@ -79,11 +79,26 @@ ctx.strokeStyle = "grey";
 var oldLocationLeft = 0;
 var oldLocationTop = 0;
 
-for (var i = 0; i < 10; i++) {
+for (var i = 0; i < 5; i++) {
 	
 	for (var j = 0; j < 20; j++) {
 		
-		var myLocation = $(light_matrix[i][j].childNodes[0]).offset()
+		var myLocation = $(light_matrix[i*2][j].childNodes[0]).offset();
+		var ctr1Left = ((myLocation.left - oldLocationLeft) / 3) + oldLocationLeft;
+		var ctr2Left = 2 * ((myLocation.left - oldLocationLeft) / 3) + oldLocationLeft;
+		
+		ctx.bezierCurveTo(ctr1Left, myLocation.top + 8, ctr2Left, myLocation.top + 8, myLocation.left, myLocation.top);
+		
+		ctx.stroke();
+		oldLocationLeft = myLocation.left;
+		oldLocationTop = myLocation.top;
+		ctx.beginPath();
+		ctx.moveTo(myLocation.left, myLocation.top);
+			
+	}
+	for (var j = 19; j > -1; j--) {
+		
+		var myLocation = $(light_matrix[(i*2)+1][j].childNodes[0]).offset();
 		var ctr1Left = ((myLocation.left - oldLocationLeft) / 3) + oldLocationLeft;
 		var ctr2Left = 2 * ((myLocation.left - oldLocationLeft) / 3) + oldLocationLeft;
 		
@@ -95,43 +110,70 @@ for (var i = 0; i < 10; i++) {
 		ctx.beginPath();
 		ctx.moveTo(myLocation.left, myLocation.top);
 		
-		
 	}
+	
 }
 
+function jsisdumb(arr, obj) {
+    for(var i=0; i<arr.length; i++) {
+		for (var j = 0; j < 2; j++) {
+			if (arr[i][j] != obj[j]) {
+				break;
+			}
+			if (j == 1) {
+				return true;
+			}
+		}		
+	}
+	return false;
+}
 
-function lights_on(i, j) {
+function lights_on_off(i, j) {
 	var bulb = light_matrix[i][j].childNodes[1];
 	var shadowColor = bulb.style.backgroundColor;
 	window.setTimeout(function() {bulb.style.boxShadow = "0px 7px 20px 3px " + shadowColor; bulb.style.opacity = 1;}, 1500);
 	window.setTimeout(lights_off, 2000, i, j);
 }
+function lights_on(i, j) {
+	var bulb = light_matrix[i][j].childNodes[1];
+	var shadowColor = bulb.style.backgroundColor;
+	bulb.style.boxShadow = "0px 7px 20px 3px " + shadowColor; bulb.style.opacity = 1;
+}
 
 function lights_off(i, j) {
 	var bulb = light_matrix[i][j].childNodes[1];
 	var shadowColor = bulb.style.backgroundColor;
-	window.setTimeout(function() {bulb.style.boxShadow = "0px 7px 7px -7px " + shadowColor; bulb.style.opacity = 0.75;}, 1500);
+	window.setTimeout(function() {bulb.style.boxShadow = "0px 7px 7px -7px " + shadowColor; bulb.style.opacity = 0.5;}, 1500);
 }
 
-var bulb = light_matrix[1][1].childNodes[1];
+
 var order = [];
-for (var i = 0; i < 100; i++) {
+for (var i = 0; i < 250; i++) {
 	order.push([Math.floor(Math.random() * 10), Math.floor(Math.random() * 20)]);
 }
 
+var hey = [[2,2],[3,2],[4,2],[5,2],[6,2],[7,2],[8,2], [5,2],[5,3],[5,4], [2,5],[3,5],[4,5],[5,5],[6,5],[7,5],[8,5]];
+var I = [[2,8],[2,9],[3,9],[4,9],[5,9],[6,9],[2,10],[6,8],[6,10]];
+var H = [[2, 6], [3,6],[4,6],[5,6],[6,6], [4,7], [5,7], [2,7],[3,7],[4,7],[5,7],[6,7]];
+var hi = [[2,6],[3,6],[4,6],[5,6],[6,6], [4,7], [5,7], [2,7],[3,7],[4,7],[5,7],[6,7], [2,8],[2,9],[3,9],[4,9],[5,9],[6,9],[2,10],[6,8],[6,10]];
+
+/*1) Make snow less obtrusie and fall in background. Do own animation
+2) Give lights attrib to tell them to stay lit when called by lights_on_off
+*/
 
 var lighter = 0;
 function light_it_up() {
 	
-	lights_on(order[lighter][0],order[lighter][1]);
-	
-	lights_on(Math.floor(Math.random() * 10), Math.floor(Math.random() * 20));
-	if (++lighter < 100) {
+	lights_on_off(order[lighter][0],order[lighter][1]);
+	if (lighter < hi.length) {
+		lights_on(hi[lighter][0], hi[lighter][1]);
+	}
+	if (++lighter < 250) {
 		if (lighter % 9 === 0) {
-			window.setTimeout(light_it_up, 3000);
+			window.setTimeout(light_it_up, 2500);
     }
     else {
-			window.setTimeout(light_it_up, 1500);
+			window.setTimeout(light_it_up, 1000);
     }
 	}
 }
