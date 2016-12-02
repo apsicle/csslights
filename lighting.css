@@ -34,7 +34,9 @@ html {
 	z-index: 1;
 	position: absolute;
 	background-image: url('snowflake1.png');
-	
+	transition: all 5s;
+	-webkit-transition-timing-function: linear;
+	transition-timing-function: linear;
 }
 	
 .oval {

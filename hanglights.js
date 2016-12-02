@@ -38,6 +38,7 @@ for (var i = 0; i < 10; i++) {
 		var new_color = pick_color(prev_color);
 		bottompart.style.backgroundColor = new_color;
 		bottompart.style.boxShadow = "0px 7px 7px -7px " + new_color;
+		bottompart.setAttribute('data-word', false);
 		prev_color = new_color;
 		mylight.appendChild(bottompart);
 		diver.appendChild(mylight);
@@ -128,22 +129,28 @@ function jsisdumb(arr, obj) {
 	return false;
 }
 
+
+
 function lights_on_off(i, j) {
 	var bulb = light_matrix[i][j].childNodes[1];
-	var shadowColor = bulb.style.backgroundColor;
-	window.setTimeout(function() {bulb.style.boxShadow = "0px 7px 20px 3px " + shadowColor; bulb.style.opacity = 1;}, 1500);
-	window.setTimeout(lights_off, 2000, i, j);
+	if (!(jsisdumb(hi, [i,j]))) {
+		var shadowColor = bulb.style.backgroundColor;
+		var state = "on";
+		window.setTimeout(function() {bulb.style.boxShadow = "0px 7px 20px 3px " + shadowColor; bulb.style.opacity = 1;}, 1500);
+		window.setTimeout(lights_off, 2000, i, j, state);
+	}
 }
 function lights_on(i, j) {
 	var bulb = light_matrix[i][j].childNodes[1];
 	var shadowColor = bulb.style.backgroundColor;
-	bulb.style.boxShadow = "0px 7px 20px 3px " + shadowColor; bulb.style.opacity = 1;
+	bulb.style.boxShadow = "0px 7px 20px 10px " + shadowColor; bulb.style.opacity = 1;
+	bulb.setAttribute('data-word', 'in');
 }
 
-function lights_off(i, j) {
+function lights_off(i, j, state) {
 	var bulb = light_matrix[i][j].childNodes[1];
 	var shadowColor = bulb.style.backgroundColor;
-	window.setTimeout(function() {bulb.style.boxShadow = "0px 7px 7px -7px " + shadowColor; bulb.style.opacity = 0.5;}, 1500);
+	window.setTimeout(function() {bulb.style.boxShadow = "0px 7px 7px -7px " + shadowColor; bulb.style.opacity = 0.5; state = 'off';}, 1500);
 }
 
 
@@ -155,13 +162,28 @@ for (var i = 0; i < 250; i++) {
 var hey = [[2,2],[3,2],[4,2],[5,2],[6,2],[7,2],[8,2], [5,2],[5,3],[5,4], [2,5],[3,5],[4,5],[5,5],[6,5],[7,5],[8,5]];
 var I = [[2,8],[2,9],[3,9],[4,9],[5,9],[6,9],[2,10],[6,8],[6,10]];
 var H = [[2, 6], [3,6],[4,6],[5,6],[6,6], [4,7], [5,7], [2,7],[3,7],[4,7],[5,7],[6,7]];
-var hi = [[2,6],[3,6],[4,6],[5,6],[6,6], [4,7], [5,7], [2,7],[3,7],[4,7],[5,7],[6,7], [2,8],[2,9],[3,9],[4,9],[5,9],[6,9],[2,10],[6,8],[6,10]];
+var hi = [[2,6],[3,6],[4,6],[5,6],[6,6], [4,7], [4,8], [2,8],[3,8],[4,8],[5,8],[6,8], [2,9],[2,10],[2,11],[3,10],[4,10],[5,10],[6,10],[6,9],[6,11], [2, 13], [3,13], [4,13], [6,13]];
+var exclaim = [[2, 13], [3,13], [4,13], [6,13]];
 
 /*1) Make snow less obtrusie and fall in background. Do own animation
 2) Give lights attrib to tell them to stay lit when called by lights_on_off
 */
 
+/*
 var lighter = 0;
+function spell_word(word, speed) {
+	var interval = setInterval(function() {
+		count = 0;
+		if (count < word.length) {
+			lights_on(word[count][0], word[count][1]);
+		}
+
+
+setInterval(spell_word, 1000, hi)
+setInterval(light_it_up, 1000);
+*/
+lighter = 0;
+
 function light_it_up() {
 	
 	lights_on_off(order[lighter][0],order[lighter][1]);
@@ -177,8 +199,8 @@ function light_it_up() {
     }
 	}
 }
-
 light_it_up();
+
 
 
 
