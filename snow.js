@@ -1,10 +1,13 @@
 var diver = document.getElementById("overlay");
+//You are so lucky
 
 function Flake() {
 	var x = Math.floor(Math.random() * window.innerWidth);
 	var y = -50;
+	var maxy = window.innerHeight;
 	var img;
-	var speed = Math.floor(Math.random() * 200) + 100;
+	var update = true;
+	var speed = Math.floor(Math.random() * 400) + 200;
 	var direction = 3*Math.PI/2; 
 	//direction in terms of degree of circular arc from positive x direction, and 0 y.
 	
@@ -22,13 +25,19 @@ function Flake() {
 	};
 	this.setPos = function (wind) {
 		//moves the flake according to speed in the direction its currently headed. setPos is called every 2 seconds. 
+		if (this.update == false) {
+		return;}
 		var wind = wind || 0;
-		if (y < window.innerHeight - 100) {
-			x = x + (Math.cos(direction + wind) * speed);
-			y = y + (-Math.sin(direction + wind) * speed);
-			img.style.left = x;
-			img.style.top = y;
+		var xTranslation = (Math.cos(direction + wind) * speed);
+		var yTranslation = (-Math.sin(direction + wind) * speed);
+		if (yTranslation + y > maxy) {
+			yTranslation = maxy - y;
+			this.update = false;
 		}
+		x = x + xTranslation;
+		y = y + yTranslation;
+		img.style.left = x;
+		img.style.top = y;	
 	};
 	this.setSpeed = function (adj) {
 		speed = speed + adj;
@@ -39,6 +48,7 @@ function Flake() {
 	this.getImg = function() {
 		return div;
 	};
+
 }
 
 function update_flakes(flakes, wind) {
@@ -50,6 +60,7 @@ function update_flakes(flakes, wind) {
 	}
 	for (var i = 0; i < flakes.length; i++) {
 		flakes[i].setPos(wind);
+	alert("updating");
 	}
 }
 
@@ -66,11 +77,13 @@ function make_flake(flake_array) {
 	flake_array.push(flake_obj);
 }
 	
-
-function let_it_snow () {
-	var snowflakes = [];
-	setInterval(make_flake, 500, snowflakes);
-	setInterval(update_flakes, 5000, snowflakes);
+var snowflakes = [];
+var timer = 0;
+function let_it_snow (severity) {
+	var maker = setInterval(function() {
+	make_flake(snowflakes); timer += 1;}, severity);
+	var updater = setInterval(update_flakes, 1000, snowflakes);
+	alert("ran again");
 }
 
-let_it_snow();
+let_it_snow(500);

@@ -183,13 +183,11 @@ setInterval(spell_word, 1000, hi)
 setInterval(light_it_up, 1000);
 */
 lighter = 0;
+speller = 0;
 
 function light_it_up() {
 	
 	lights_on_off(order[lighter][0],order[lighter][1]);
-	if (lighter < hi.length) {
-		lights_on(hi[lighter][0], hi[lighter][1]);
-	}
 	if (++lighter < 250) {
 		if (lighter % 9 === 0) {
 			window.setTimeout(light_it_up, 2500);
@@ -199,7 +197,16 @@ function light_it_up() {
     }
 	}
 }
+function spell_word() {
+	
+	if (speller < hi.length) {
+		lights_on(hi[speller][0], hi[speller][1]);
+		speller ++;
+	}
+	window.setTimeout(spell_word, 1000);
+}
 light_it_up();
+window.setTimeout(spell_word, 5000);
 
 
 

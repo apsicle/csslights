@@ -31,7 +31,7 @@ html {
 #snow {
 	width: 10px;
 	height: 10px;
-	z-index: 1;
+	z-index: 2;
 	position: absolute;
 	background-image: url('snowflake1.png');
 	transition: all 5s;
