@@ -26,7 +26,10 @@ the whole light is appended to the div overlaid on the canvas. */
 
 
 for (var i = 0; i < 10; i++) {
+	counter = -1
 	for (var j = 0; j < 20; j++) {
+		counter += 1
+		var angles = [0,15,30,15,0,-15,-30,-15];
 		var mylight = document.createElement("div");
 		mylight.className = "light";
 		mylight.style.height = "10vh";
@@ -38,8 +41,10 @@ for (var i = 0; i < 10; i++) {
 		var new_color = pick_color(prev_color);
 		bottompart.style.backgroundColor = new_color;
 		bottompart.style.boxShadow = "0px 7px 7px -7px " + new_color;
+
 		bottompart.setAttribute('data-word', false);
 		prev_color = new_color;
+
 		mylight.appendChild(bottompart);
 		diver.appendChild(mylight);
 		
@@ -203,7 +208,14 @@ function spell_word() {
 		lights_on(hi[speller][0], hi[speller][1]);
 		speller ++;
 	}
-	window.setTimeout(spell_word, 1000);
+	else {
+		var letter = document.getElementById("lettercontainer");
+		if (letter.style.opacity != 1) {
+			window.setTimeout(function() {letter.style.opacity = 1;}, 2000);
+			return;
+		}
+	}
+	window.setTimeout(spell_word, 250);
 }
 light_it_up();
 window.setTimeout(spell_word, 5000);

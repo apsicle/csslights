@@ -1,10 +1,14 @@
-var diver = document.getElementById("overlay");
+var body = document.body;
+var html = document.documentElement;
+var height = Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight );
+
+var diver = document.body;
 //You are so lucky
 
 function Flake() {
 	var x = Math.floor(Math.random() * window.innerWidth);
 	var y = -50;
-	var maxy = window.innerHeight;
+	var maxy = body.scrollHeight - 20;
 	var img;
 	var update = true;
 	var speed = Math.floor(Math.random() * 400) + 200;
@@ -60,7 +64,6 @@ function update_flakes(flakes, wind) {
 	}
 	for (var i = 0; i < flakes.length; i++) {
 		flakes[i].setPos(wind);
-	alert("updating");
 	}
 }
 
@@ -82,8 +85,7 @@ var timer = 0;
 function let_it_snow (severity) {
 	var maker = setInterval(function() {
 	make_flake(snowflakes); timer += 1;}, severity);
-	var updater = setInterval(update_flakes, 1000, snowflakes);
-	alert("ran again");
+	var updater = setInterval(update_flakes, 1500, snowflakes);
 }
 
-let_it_snow(500);
+window.setTimeout(let_it_snow, 2000, 350);
