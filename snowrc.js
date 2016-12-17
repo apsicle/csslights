@@ -36,7 +36,7 @@ function Flake() {
 		var wind = (0.05*this.getWind()) + (0.95*my_wind);
 		this.setWind((0.05*this.getWind()) + (0.95*my_wind));
 		var xTranslation = (Math.cos(direction + wind) * speed);
-		console.log(this.getWind(), my_wind);
+		//console.log(this.getWind(), my_wind);
 		var yTranslation = (-Math.sin(direction + wind) * speed);
 		if (yTranslation + y > maxy) {
 			yTranslation = maxy - y;
@@ -106,4 +106,4 @@ function let_it_snow (severity) {
 	var storm = setInterval(make_wind, 5000, snowflakes);
 }
 
-window.setTimeout(let_it_snow, 2000, 350);
+window.setTimeout(let_it_snow, 500, 350);
