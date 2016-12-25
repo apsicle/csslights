@@ -234,7 +234,7 @@ function begin(wordArr, includeLetter) {
 
 	var t = 1000 * ((n / 4.0) - 6.4);
 	if (t > 7500) {
-		t = 7500;
+		t = 4750;
 	}
 	var audio = new Audio('winterwonderland.wav');
 	window.setTimeout(function() {
