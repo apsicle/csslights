@@ -148,7 +148,7 @@ function lights_on_off(i, j, wordArr) {
 function lights_on(i, j) {
 	var bulb = light_matrix[i][j].childNodes[1];
 	var shadowColor = bulb.style.backgroundColor;
-	bulb.style.boxShadow = "0px 7px 20px 10px " + shadowColor; bulb.style.opacity = 1;
+	bulb.style.boxShadow = "0px 7px 20px 7px " + shadowColor; bulb.style.opacity = 1;
 	bulb.setAttribute('data-word', 'in');
 }
 
@@ -208,29 +208,38 @@ function light_it_up(wordArr) {
     }
 	}
 }
-function spell_word(wordArr) {
-	
+function spell_word(wordArr, includeLetter) {
 	if (speller < wordArr.length) {
 		lights_on(wordArr[speller][0], wordArr[speller][1]);
 		speller ++;
 	}
-	// else {
-	// 	var letter = document.getElementById("lettercontainer");
-	// 	if (letter.style.opacity != 1) {
-	// 		window.setTimeout(function() {letter.style.opacity = 1;}, 2000);
-	// 		return;
-	// 	}
-	// }
-	window.setTimeout(spell_word, 250, wordArr);
+	else if (includeLetter) {
+		var letter = document.getElementById("lettercontainer");
+		if (letter.style.opacity != 1) {
+			window.setTimeout(function() {letter.style.opacity = 1;}, 2000);
+			return;
+		}
+	}
+	window.setTimeout(spell_word, 250, wordArr, includeLetter);
 }
 
-function begin(wordArr) {
+function begin(wordArr, includeLetter) {
 	
 	light_it_up(wordArr);
-	window.setTimeout(spell_word, 7500, wordArr);
+	var n = wordArr.length;
+	window.setTimeout(spell_word, 7500, wordArr, includeLetter);
 	window.setTimeout(function() {
 		document.getElementById('container').style.opacity = 1;
 	}, 5000);
+
+	var t = 1000 * ((n / 4.0) - 6.4);
+	if (t > 7500) {
+		t = 7500;
+	}
+	var audio = new Audio('winterwonderland.wav');
+	window.setTimeout(function() {
+		audio.play();
+	}, t);
 
 }
 
